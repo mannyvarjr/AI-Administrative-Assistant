@@ -1,0 +1,156 @@
+{
+  "name": "Project: AI Administrative Assistant",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8023377c-ac5b-43be-830a-9b3323551b34",
+      "name": "When chat message received",
+      "webhookId": "41d03311-99e4-4b75-bc67-707c5689eb0c"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=You are a helpful administrative assistant. Now is {{$now}}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "fc918b34-a516-437e-90bc-5ffa2a94d010",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        48,
+        224
+      ],
+      "id": "c3b438f2-011a-42ad-8a24-a7c9a309351b",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "HH8RnGgdPlKVaKSX",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        224,
+        208
+      ],
+      "id": "4d5e7c99-b1b9-4d95-86f0-b28e42fa14c8",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "RHhzBUXlgkV3ZsAg",
+          "name": "Manuel's Connection"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "endpointUrl": "https://n8n.srv1520546.hstgr.cloud/mcp/0a11adeb-819d-4dd1-b956-fc8689904ea2",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        384,
+        224
+      ],
+      "id": "425d6450-a883-47f2-8e86-d383df70e8b3",
+      "name": "MCP Client"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MCP Client": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "timezone": "Asia/Singapore",
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": -1,
+    "availableInMCP": false
+  },
+  "versionId": "e8e2fa45-d0ec-4a8f-9dca-ebc40f62caf5",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5c1af28f124f60998c2d95a606ebc06f31be0f2a26c0d4df2639d8a987bbf7a1"
+  },
+  "id": "yiV1ohZPoNBq11Wj",
+  "tags": []
+}
